@@ -27,6 +27,7 @@ fi
 cd linux-rockchip
 git checkout "${KERNEL_BRANCH}"
 
+make defconfig || true
 make olddefconfig
 
 # shellcheck disable=SC2046
