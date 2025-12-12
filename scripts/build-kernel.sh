@@ -39,7 +39,7 @@ sed -i 's/CONFIG_ARM64_VA_BITS_48=y/CONFIG_ARM64_VA_BITS_39=y/g' .config
 
 # 3. 运行 olddefconfig 
 # 解决之前遇到的非交互式配置中断问题
-make olddefconfig
+yes "" | make olddefconfig
 
 # -----------------------------------------------------------
 # 配置修改完毕
