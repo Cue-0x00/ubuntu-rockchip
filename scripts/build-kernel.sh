@@ -27,6 +27,8 @@ fi
 cd linux-rockchip
 git checkout "${KERNEL_BRANCH}"
 
+make olddefconfig
+
 # shellcheck disable=SC2046
 export $(dpkg-architecture -aarm64)
 export CROSS_COMPILE=aarch64-linux-gnu-
