@@ -28,26 +28,21 @@ cd linux-rockchip
 git checkout "${KERNEL_BRANCH}"
 
 # -----------------------------------------------------------
-# 修改开始：使用 Armbian 配置并调整 VA_BITS
+# 新增/修改：使用 Armbian 配置并调整 VA_BITS (使用 sed)
 # -----------------------------------------------------------
 
 # 1. 下载 Armbian 配置文件覆盖当前的 .config
 echo "Downloading Armbian config..."
 curl -sL "https://github.com/armbian/build/raw/main/config/kernel/linux-rk35xx-vendor.config" -o .config
 
-# 2. 使用 scripts/config 工具安全地修改配置
-# 相比 sed，这个工具能处理依赖关系，更安全
-echo "Setting CONFIG_ARM64_VA_BITS=39..."
-./scripts/config --enable CONFIG_ARM64_VA_BITS_39
-./scripts/config --disable CONFIG_ARM64_VA_BITS_48
-./scripts/config --set-val CONFIG_ARM64_VA_BITS 39
+sed -i 's/CONFIG_ARM64_VA_BITS_48=y/CONFIG_ARM64_VA_BITS_39=y/g' .config
 
 # 3. 运行 olddefconfig 
-# 这会清理配置文件，计算依赖，并确保所有新选项都有默认值（非交互式）
+# 解决之前遇到的非交互式配置中断问题
 make olddefconfig
 
 # -----------------------------------------------------------
-# 修改结束
+# 配置修改完毕
 # -----------------------------------------------------------
 
 # shellcheck disable=SC2046
